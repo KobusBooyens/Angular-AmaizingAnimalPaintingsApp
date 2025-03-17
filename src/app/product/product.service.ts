@@ -8,9 +8,9 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
-  constructor(private http: HttpClient) { }
-
   private baseUrl = environment.baseUrl + "/products";
+
+  constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseUrl);
