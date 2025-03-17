@@ -2,19 +2,27 @@
     <h1>Cart</h1>
     <mat-card>
         <mat-list>
-            <mat-list-item *ngFor="let item of cartItems">
-                <span matListItemTitle> {{item.name}}</span>
-                <span matListItemSubtitle> {{item.price | currency:'R'}}</span>
-                <button mat-button (click)="removeFromCart(item)">Remove</button>
-            </mat-list-item>
-            <mat-list-item class="price"> Total: {{totalPrice | currency:'R'}} </mat-list-item>
-            <mat-list-item class="clear"></mat-list-item>
-            <mat-list-item style="text-align: right">
-                <button mat-flat-button (click)="clearCart()">Clear Cart</button>
-            </mat-list-item>
-            <mat-list-item style="text-align: right">
-                <button mat-raised-button color="primary" (click)="checkout(cartItems)">Checkout</button>
-            </mat-list-item>
+            <div *ngIf="isCheckingOut"
+                style="display: flex; flex-direction: column; align-items: center; padding: 20px">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p style="margin-top: 10px;">Processing checkout...</p>
+            </div>
+
+            <div *ngIf="!isCheckingOut">
+                <mat-list-item *ngFor="let item of cartItems">
+                    <span matListItemTitle> {{item.name}}</span>
+                    <span matListItemSubtitle> {{item.price | currency:'R'}}</span>
+                    <button mat-button (click)="removeFromCart(item)">Remove</button>
+                </mat-list-item>
+                <mat-list-item class="price"> Total: {{totalPrice | currency:'R'}} </mat-list-item>
+                <mat-list-item class="clear"></mat-list-item>
+                <mat-list-item style="text-align: right">
+                    <button mat-flat-button (click)="clearCart()">Clear Cart</button>
+                </mat-list-item>
+                <mat-list-item style="text-align: right">
+                    <button mat-raised-button color="primary" (click)="checkout(cartItems)">Checkout</button>
+                </mat-list-item>
+            </div>
         </mat-list>
     </mat-card>
 </div>

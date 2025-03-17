@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Product } from '../../models/product';
-import { SnackbarService } from '../../services/snackbar.service';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-cart-view',
@@ -11,6 +11,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class CartViewComponent implements OnInit {
   cartItems: Product[] = [];
   totalPrice: number = 0;
+  isCheckingOut: boolean = false;
 
   constructor(private cartService: CartService, private snackBarService: SnackbarService) { }
 
@@ -56,10 +57,14 @@ export class CartViewComponent implements OnInit {
   }
 
   checkout(cart: Product[]) {
-    this.cartService.checkout(cart).subscribe(() => {
-      this.snackBarService.showSnackBar("Cart checked out successfully!", "Close");
-      this.cartItems = [];
-      this.totalPrice = this.getTotalPrice();
-    });
+    this.isCheckingOut = true;
+    setTimeout(() => {
+      this.cartService.checkout(cart).subscribe(() => {
+        this.snackBarService.showSnackBar("Cart checked out successfully!", "Close");
+        this.cartItems = [];
+        this.totalPrice = this.getTotalPrice();
+        this.isCheckingOut = false;
+      });
+    }, 4000);
   }
 }
