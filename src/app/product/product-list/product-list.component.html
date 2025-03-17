@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Our latest collection</h2>
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngFor="let product of products">
             <mat-card class="product-card m-2 shadow-lg border-0" appearance="outlined">
                 <img mat-card-image src="assets/images/{{product.image_url}}" alt="Photo of {{product.name}}">
                 <mat-card-content class="text-center">
