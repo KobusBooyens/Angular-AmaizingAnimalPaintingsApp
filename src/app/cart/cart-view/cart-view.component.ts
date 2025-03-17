@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Product } from '../../models/product';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-cart-view',
@@ -11,7 +12,7 @@ export class CartViewComponent implements OnInit {
   cartItems: Product[] = [];
   totalPrice: number = 0;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private snackBarService: SnackbarService) { }
 
   ngOnInit(): void {
     this.loadCart();
@@ -41,13 +42,14 @@ export class CartViewComponent implements OnInit {
 
   removeFromCart(product: Product): void {
     this.cartService.removeFromCart(product).subscribe(() => {
+      this.snackBarService.showSnackBar("Product removed from cart successfully!", "Close");
       this.loadCart();
     });
   }
 
   clearCart(): void {
     this.cartService.clearCart().subscribe(() => {
-      console.log("Cart cleared successfully.");
+      this.snackBarService.showSnackBar("Cart cleared successfully!", "Close");
       this.cartItems = [];
       this.totalPrice = this.getTotalPrice();
     });
@@ -55,7 +57,9 @@ export class CartViewComponent implements OnInit {
 
   checkout(cart: Product[]) {
     this.cartService.checkout(cart).subscribe(() => {
-      console.log("Cart checked out successfully.");
+      this.snackBarService.showSnackBar("Cart checked out successfully!", "Close");
+      this.cartItems = [];
+      this.totalPrice = this.getTotalPrice();
     });
   }
 }
